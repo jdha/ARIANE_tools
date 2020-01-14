@@ -24,7 +24,7 @@ Example usage:
     # first create a logical 2D mask where particles are to be released
     import ariane_setup as ar
     ar_ind=ar.ariane_indices(mask,'domain_cfg.nc')
-    ar_ind.get_dir_list('path_to_nemo_data','*U.nc','*V.nc')
+    ar_ind.get_dir_list('./','*U.nc','*V.nc')
     ar_ind.gen_ind()
     ar_ind.plot_map(0,0)
     ar_ind.write_file('initial_positions.txt',1)
@@ -216,8 +216,8 @@ class ariane_indices(object):
             
             # Derive a pvol number based on the max flow through a cell, let us
             # set the maximum number of particles to 64 as a first estimate
-            
-            self.pvol = np.amax(U+V)/128.
+            print np.amax(U+V)
+            self.pvol = np.amax(U+V)/64.
         
         pvol_r = 1/self.pvol
             
@@ -228,6 +228,7 @@ class ariane_indices(object):
         
         self.P = nx*ny
         
+        print count, active_cells
         for t in range(count):
             for n in range(active_cells):
             
