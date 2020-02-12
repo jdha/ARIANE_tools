@@ -23,7 +23,11 @@ A tool to generate indices for ingesting into ARIANE
 Example usage:
     # first create a logical 2D mask where particles are to be released
     import ariane_setup as ar
-    ar_ind=ar.ariane_indices(mask,'domain_cfg.nc')
+    
+    ar_ind=ar.ariane_indices(mask,'domain_cfg.nc') 
+    ** or for a backward setup ** 
+    ar_ind=ar.ariane_indices(mask,'domain_cfg.nc', t_offset=146, direction='b')
+    
     ar_ind.get_dir_list('./','*U.nc','*V.nc')
     ar_ind.gen_ind()
     ar_ind.plot_map(0,0)
