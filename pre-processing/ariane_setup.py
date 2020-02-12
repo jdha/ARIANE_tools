@@ -48,7 +48,7 @@ class ariane_indices(object):
     An object that stores the information required to generate an ARIANE 
     initial positions file
     """
-    def __init__(self, mask, cfgfile, pvol=None):
+    def __init__(self, mask, cfgfile, pvol=None, t_offset=0., direction='f'):
         """ 
         Initialise IceCav object.
         
@@ -64,6 +64,13 @@ class ariane_indices(object):
         self.flist    = None    # 
         self.a_ind    = np.zeros((0,5))    # 
         self.datetime = None    #
+        self.t_offset = t_offset
+        if direction=='f':
+            self.fwd = True
+        elif direction=='b':
+            self.fwd = False
+        else:
+            print('Direction Invalid') # TODO: Throw an exception here
         
         # Check dimensions are correct
         nc = Dataset(cfgfile)
@@ -229,7 +236,13 @@ class ariane_indices(object):
         self.P = nx*ny
         
         print count, active_cells
-        for t in range(count):
+        
+        if self.fwd==True"
+            t_list = range(count)
+        else:
+            t_list = np.arange(count-1, -1, -1)
+                
+        for t in t_list:
             for n in range(active_cells):
             
                 jj, ii = np.meshgrid(np.linspace(0, 1, ny[n,t]*2+1), 
@@ -242,7 +255,7 @@ class ariane_indices(object):
                                          np.hstack((ii+i_loc[n]+i[0], 
                                                     jj+j_loc[n]+j[0], 
                                                     np.ones_like(ii)+k_loc[n]+0.5, 
-                                                    np.ones_like(ii)+t, 
+                                                    np.ones_like(ii)+t+self.t_offset, 
                                                     np.ones_like(ii)))
                                          ) )
                                            
