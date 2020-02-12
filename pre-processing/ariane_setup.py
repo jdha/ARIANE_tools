@@ -241,7 +241,7 @@ class ariane_indices(object):
         
         print count, active_cells
         
-        if self.fwd==True"
+        if self.fwd==True:
             t_list = range(count)
         else:
             t_list = np.arange(count-1, -1, -1)
